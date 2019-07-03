@@ -1,30 +1,84 @@
 <template>
-  <el-container>
-    <el-header>Header</el-header>
-    <el-main>
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="date"
-          label="日期"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="姓名"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="地址">
-        </el-table-column>
-      </el-table>
-    </el-main>
-  </el-container>
+  <el-row :gutter="20">
+    <el-col :span="3">
+      <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b">
+      <el-submenu index="1">
+        <template slot="title">
+          <span>设计</span>
+        </template>
+        <el-menu-item index="1-1">
+          <span slot="title" @click="toList('design')">列表</span>
+        </el-menu-item>
+        <el-menu-item index="1-2">
+          <span slot="title" @click="toAdd('design')">添加</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">
+          <span>多表设计</span>
+        </template>
+        <el-menu-item index="2-1">
+          <span slot="title" @click="toList('unionDesign')">列表</span>
+        </el-menu-item>
+        <el-menu-item index="2-2">
+          <span slot="title" @click="toAdd('unionDesign')">添加</span>
+        </el-menu-item>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">
+          <span>方案</span>
+        </template>
+        <el-menu-item index="3-1">
+          <span slot="title" @click="toList('schema')">列表</span>
+        </el-menu-item>
+        <el-menu-item index="3-2">
+          <span slot="title" @click="toAdd('schema')">添加</span>
+        </el-menu-item>
+      </el-submenu>
+    </el-menu>
+    </el-col>
+    <el-col :span="21">
+      <div class="grid-content bg-purple-dark">
+        <el-form inline ref="form" :model="form" label-width="80px" class="demo-form-inline">
+          <el-form-item label="名称">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="grid-content bg-purple-dark">
+        <el-table
+          :data="tableData"
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="date"
+            label="日期"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="地址">
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-col>
+  </el-row>
 </template>
-
 <script>
 export default {
   name: 'index',
@@ -46,7 +100,42 @@ export default {
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      }],
+      form: {
+        name
+      }
+    }
+  },
+  methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    onSubmit () {
+      console.log('提交')
+    },
+    toList (name) {
+      switch (name) {
+        case 'design':
+          break
+        case 'unionDesign':
+          break
+        case 'schema':
+          break
+      }
+    },
+    toAdd (name) {
+      switch (name) {
+        case 'design':
+          this.$router.push('designAdd')
+          break
+        case 'unionDesign':
+          break
+        case 'schema':
+          break
+      }
     }
   }
 }
@@ -64,5 +153,8 @@ export default {
     color: #333;
     text-align: center;
     line-height: 160px;
+  }
+  .el-aside {
+    color: #333;
   }
 </style>
