@@ -65,13 +65,15 @@ export default {
         columnNum: '',
         unionSql: '',
         tableName: '',
-        describe: ''
+        description: ''
       }
     }
   },
   methods: {
     onSubmit () {
-      console.log('1')
+      this.$api.design.tableList().then(res => {
+        console.log(res)
+      })
     }
   }
 }
