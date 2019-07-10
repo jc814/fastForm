@@ -42,7 +42,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="描述">
-            <el-input type="textarea" v-model="design.describe"></el-input>
+            <el-input type="textarea" v-model="design.description"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">保存</el-button>

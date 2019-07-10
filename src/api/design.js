@@ -11,6 +11,9 @@ const design = {
   designAdd (params) {
     return axios.post(`${base.bd}/design/insert`, params)
   },
+  designList () {
+    return axios.get(`${base.bd}/design/getList`)
+  },
   tableList () {
     return axios.get(`${base.bd}/table/getTables`)
   }
