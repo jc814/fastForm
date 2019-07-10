@@ -8,8 +8,8 @@ import axios from '../utils/http' // 导入http中创建的axios实例
 
 const design = {
   // 新闻列表
-  designAdd (param) {
-    return axios.get(`${base.db}/topics`)
+  designAdd (params) {
+    return axios.post(`${base.bd}/design/insert`, params)
   },
   tableList () {
     return axios.get(`${base.bd}/table/getTables`)

@@ -3,11 +3,13 @@
  */
 // 文章模块接口
 import design from './design'
+import field from './field'
 // 其他模块的接口……
 
 // 导出接口
 export default {
-  design
+  design,
+  field
   // ……
 }
 

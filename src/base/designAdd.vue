@@ -7,28 +7,31 @@
             <el-input v-model="design.designName"></el-input>
           </el-form-item>
           <el-form-item label="表名">
-            <el-select v-model="design.tableName" placeholder="请选择一张表">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="design.tableName" placeholder="请选择一张表" @click.native="findTables">
+              <el-option v-for="table in tables" :label="table" :value="table"  v-bind:key="table" @click.native="tableField(table)">
+                {{table}}
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="主键字段">
             <el-select v-model="design.primaryKey" placeholder="请选择字段">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option v-for="field in fields" :label="field" :value="field" v-bind:key="field">
+                {{field}}
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="排序字段">
             <el-select v-model="design.orderBy" placeholder="请选择字段">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option v-for="field in fields" :label="field" :value="field" v-bind:key="field">
+                {{field}}
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="按钮">
-            <el-checkbox-group v-model="design.buttons">
-              <el-checkbox label="增加" name="buttons"></el-checkbox>
-              <el-checkbox label="删除" name="buttons"></el-checkbox>
-              <el-checkbox label="修改" name="buttons"></el-checkbox>
+            <el-checkbox-group v-model="design.buttonName">
+              <el-checkbox label="add" name="buttons">增加</el-checkbox>
+              <el-checkbox label="del" name="buttons">删除</el-checkbox>
+              <el-checkbox label="update" name="buttons">修改</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="列数">
@@ -61,17 +64,38 @@ export default {
         isSingle: '',
         orderBy: '',
         primaryKey: '',
-        buttons: [],
+        buttonName: [],
+        buttons: '',
         columnNum: '',
         unionSql: '',
         tableName: '',
         description: ''
-      }
+      },
+      tables: [],
+      fields: []
     }
   },
   methods: {
-    onSubmit () {
+    findTables () {
       this.$api.design.tableList().then(res => {
+        console.log(res.data)
+        this.tables = res.data
+      })
+    },
+    tableField (tableName) {
+      this.$api.field.fieldList(tableName).then(res => {
+        console.log(res.data)
+        this.fields = res.data
+      })
+    },
+    onSubmit () {
+      this.design.isSingle = '1'
+      let params = this.design
+      params.buttons = ''
+      for (let item of params.buttonName) {
+        params.buttons += item + ','
+      }
+      this.$api.design.designAdd(params).then(res => {
         console.log(res)
       })
     }
