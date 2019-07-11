@@ -11,22 +11,37 @@
     <el-row :gutter="20">
       <el-col :span="16" :offset="3">
         <el-table
-          :data="designList"
+          :data="fieldList"
           style="width: 100%">
           <el-table-column
-            prop="designName"
+            prop="fieldName"
             label="名称"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="tableName"
-            label="表明"
+            prop="fieldRef"
+            label="引用列"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="description"
-            label="说明"
+            prop="别名"
+            label="fieldName"
             width="180">
+          </el-table-column>
+          <el-table-column
+            prop="查询"
+            label="searchShow"
+            width="60">
+          </el-table-column>
+          <el-table-column
+            prop="列表"
+            label="listShow"
+            width="60">
+          </el-table-column>
+          <el-table-column
+            prop="新增"
+            label="updateShow"
+            width="60">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -55,21 +70,9 @@ export default {
   name: 'index',
   data () {
     return {
-      designList: []
     }
   },
   methods: {
-    designView (designId) {
-      this.$router.push({name: 'fieldList', params: {designId: designId}})
-    },
-    getList () {
-      this.$api.design.designList().then(res => {
-        this.designList = res.data
-      })
-    }
-  },
-  mounted: function () {
-    this.getList()
   }
 }
 </script>
