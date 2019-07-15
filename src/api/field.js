@@ -21,6 +21,15 @@ const field = {
         tableName: tableName
       }
     })
+  },
+  changeShow (id, type, state) {
+    return axios.get(`${base.bd}/field/changeShow`, {
+      params: {
+        id: id,
+        type: type,
+        state: state
+      }
+    })
   }
 }
 

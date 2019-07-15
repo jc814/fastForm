@@ -9,53 +9,71 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="16" :offset="3">
+      <el-col :span="21" :offset="3">
         <el-table
           :data="fieldList"
-          style="width: 80%">
+          style="width: 100%">
           <el-table-column
             prop="fieldName"
             label="名称"
-            width="180">
+            width="120">
           </el-table-column>
           <el-table-column
             prop="fieldRef"
             label="引用列"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="fieldName"
-            label="别名"
-            width="180">
+            width="120">
           </el-table-column>
           <el-table-column
             prop="labelName"
             label="标签名"
             width="120">
-            <template slot-scope="scope">
-              <el-switch
-                v-model="scope.row.add"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
-              </el-switch>
-            </template>
           </el-table-column>
           <el-table-column
             prop="searchShow"
             label="查询"
             width="60">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.searchShow"
+                active-value="1"
+                inactive-value="0"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="changeShow(scope.row.id,'search',scope.row.searchShow)">
+              </el-switch>
+            </template>
           </el-table-column>
           <el-table-column
             prop="listShow"
             label="列表"
             width="60">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.listShow"
+                active-value="1"
+                inactive-value="0"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="changeShow(scope.row.id,'list',scope.row.listShow)">
+              </el-switch>
+            </template>
           </el-table-column>
           <el-table-column
             prop="updateShow"
             label="新增"
             width="60">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.addShow"
+                active-value="1"
+                inactive-value="0"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="changeShow(scope.row.id,'add',scope.row.addShow)">
+              </el-switch>
+            </template>
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="300">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -93,6 +111,11 @@ export default {
       this.$api.field.fieldList(this.designId).then(res => {
         this.fieldList = res.data
       })
+    },
+    changeShow (id, type, state) {
+      this.$api.field.changeShow(id, type, state).then(res => {
+      })
+      this.getFieldList()
     }
   },
   mounted () {
