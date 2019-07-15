@@ -4,6 +4,7 @@ import index from '@/base/index'
 import designAdd from '@/base/designAdd'
 import designList from '@/base/designList'
 import designView from '@/base/designView'
+import fieldView from '@/base/fieldView'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/designView',
       name: 'designView',
       component: designView
+    },
+    {
+      path: '/fieldView',
+      name: 'fieldView',
+      component: fieldView
     }
   ]
 })

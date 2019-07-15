@@ -114,8 +114,9 @@ export default {
     },
     changeShow (id, type, state) {
       this.$api.field.changeShow(id, type, state).then(res => {
+        if (res.data === true) {
+        }
       })
-      this.getFieldList()
     }
   },
   mounted () {
