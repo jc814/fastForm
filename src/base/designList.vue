@@ -37,11 +37,11 @@
               <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                >编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -59,9 +59,6 @@ export default {
     }
   },
   methods: {
-    designView (designId) {
-      this.$router.push({name: 'fieldList', params: {designId: designId}})
-    },
     getList () {
       this.$api.design.designList().then(res => {
         this.designList = res.data

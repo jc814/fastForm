@@ -8,7 +8,14 @@ import axios from '../utils/http' // 导入http中创建的axios实例
 
 const field = {
   // 新闻列表
-  fieldList (tableName) {
+  fieldList (designId) {
+    return axios.get(`${base.bd}/field/getList`, {
+      params: {
+        designId: designId
+      }
+    })
+  },
+  columnList (tableName) {
     return axios.get(`${base.bd}/table/getFields`, {
       params: {
         tableName: tableName

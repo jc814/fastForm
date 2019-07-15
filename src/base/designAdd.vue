@@ -8,7 +8,7 @@
           </el-form-item>
           <el-form-item label="表名">
             <el-select v-model="design.tableName" placeholder="请选择一张表" @click.native="findTables">
-              <el-option v-for="table in tables" :label="table" :value="table"  v-bind:key="table" @click.native="tableField(table)">
+              <el-option v-for="table in tables" :label="table" :value="table"  v-bind:key="table" @click.native="columnList(table)">
                 {{table}}
               </el-option>
             </el-select>
@@ -46,7 +46,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">保存</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="goBack">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -82,8 +82,8 @@ export default {
         this.tables = res.data
       })
     },
-    tableField (tableName) {
-      this.$api.field.fieldList(tableName).then(res => {
+    columnList (tableName) {
+      this.$api.field.columnList(tableName).then(res => {
         console.log(res.data)
         this.fields = res.data
       })
@@ -96,8 +96,23 @@ export default {
         params.buttons += item + ','
       }
       this.$api.design.designAdd(params).then(res => {
-        console.log(res)
+        if (res.status === 200) {
+          this.$message({
+            message: '保存成功！',
+            duration: 1000,
+            showClose: true
+          })
+        } else {
+          this.$message({
+            message: '保存失败！',
+            duration: 1000,
+            showClose: true
+          })
+        }
       })
+    },
+    goBack () {
+      this.$router.back(-1)
     }
   }
 }

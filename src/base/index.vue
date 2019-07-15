@@ -44,7 +44,7 @@
       </el-submenu>
     </el-menu>
     </el-col>
-    <el-col :span="21">
+    <el-col :span="14">
       <div class="grid-content bg-purple-dark">
         <el-form inline ref="form" :model="form" label-width="80px" class="demo-form-inline">
           <el-form-item label="名称">
@@ -57,22 +57,38 @@
       </div>
       <div class="grid-content bg-purple-dark">
         <el-table
-          :data="tableData"
+          :data="designList"
           stripe
           style="width: 100%">
           <el-table-column
-            prop="date"
-            label="日期"
+            prop="designName"
+            label="名称"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="name"
-            label="姓名"
+            prop="description"
+            label="描述"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="address"
-            label="地址">
+            prop="tableName"
+            label="引用表">
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="info"
+                @click="designView(scope.$index, scope.row)">查看</el-button>
+              <el-button
+                size="mini"
+                type="primary"
+                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="designDel(scope.$index, scope.row)">删除</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -84,23 +100,7 @@ export default {
   name: 'index',
   data () {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      designList: [],
       form: {
         name
       }
@@ -136,7 +136,42 @@ export default {
         case 'schema':
           break
       }
+    },
+    getList () {
+      this.$api.design.designList().then(res => {
+        this.designList = res.data
+      })
+    },
+    designView (index, row) {
+      this.$router.push({name: 'designView', params: {designId: row.id}})
+    },
+    designDel (index, row) {
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.design.designDel(row.id).then(res => {
+          if (res.status === 200) {
+            this.getList()
+            this.$message({
+              message: '删除成功！',
+              duration: 1000,
+              showClose: true
+            })
+          } else {
+            this.$message({
+              message: '删除失败！',
+              duration: 1000,
+              showClose: true
+            })
+          }
+        })
+      })
     }
+  },
+  mounted: function () {
+    this.getList()
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="3" :offset="3">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
+        <el-input v-model="searchName" placeholder="请输入内容"></el-input>
       </el-col>
       <el-col :span="1">
         <el-button type="primary" icon="el-icon-search">搜索</el-button>
@@ -12,7 +12,7 @@
       <el-col :span="16" :offset="3">
         <el-table
           :data="fieldList"
-          style="width: 100%">
+          style="width: 80%">
           <el-table-column
             prop="fieldName"
             label="名称"
@@ -24,23 +24,35 @@
             width="180">
           </el-table-column>
           <el-table-column
-            prop="别名"
-            label="fieldName"
+            prop="fieldName"
+            label="别名"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="查询"
-            label="searchShow"
+            prop="labelName"
+            label="标签名"
+            width="120">
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.add"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+              </el-switch>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="searchShow"
+            label="查询"
             width="60">
           </el-table-column>
           <el-table-column
-            prop="列表"
-            label="listShow"
+            prop="listShow"
+            label="列表"
             width="60">
           </el-table-column>
           <el-table-column
-            prop="新增"
-            label="updateShow"
+            prop="updateShow"
+            label="新增"
             width="60">
           </el-table-column>
           <el-table-column label="操作">
@@ -48,7 +60,7 @@
               <el-button
                 size="mini"
                 type="info"
-                @click="designView(scope.$index, scope.row)">查看</el-button>
+                @click="fieldView(scope.$index, scope.row)">查看</el-button>
               <el-button
                 size="mini"
                 type="primary"
@@ -67,12 +79,24 @@
 </template>
 <script>
 export default {
-  name: 'index',
+  name: 'designView',
   data () {
     return {
+      fieldList: [],
+      designId: '',
+      searchName: ''
     }
   },
   methods: {
+    getFieldList () {
+      this.designId = this.$route.params.designId
+      this.$api.field.fieldList(this.designId).then(res => {
+        this.fieldList = res.data
+      })
+    }
+  },
+  mounted () {
+    this.getFieldList()
   }
 }
 </script>
