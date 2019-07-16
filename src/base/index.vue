@@ -79,11 +79,11 @@
               <el-button
                 size="mini"
                 type="info"
-                @click="designView(scope.$index, scope.row)">查看</el-button>
+                @click="designView(scope.$index, scope.row, 'view')">查看</el-button>
               <el-button
                 size="mini"
                 type="primary"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                @click="toEdit(scope.row, 'update')">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
@@ -129,13 +129,16 @@ export default {
     toAdd (name) {
       switch (name) {
         case 'design':
-          this.$router.push('designAdd')
+          this.$router.push({name: 'designAdd', params: {type: 'add'}})
           break
         case 'unionDesign':
           break
         case 'schema':
           break
       }
+    },
+    toEdit (row, type) {
+      this.$router.push({name: 'designAdd', params: {designId: row.id, type: 'edit'}})
     },
     getList () {
       this.$api.design.designList().then(res => {

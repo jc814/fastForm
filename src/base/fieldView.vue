@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-row :gutter="20">
+
+    </el-row>
+    <el-row :gutter="20">
       <el-col :span="6" :offset="1" >
         <div class="title">列表</div>
         <el-form ref="form" :model="listForm" label-width="80px">
@@ -101,6 +104,7 @@ export default {
     color: #333;
   }
   .title {
+    font-size: 18px;
     height: 60px;
     line-height: 60px;
   }

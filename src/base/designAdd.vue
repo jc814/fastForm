@@ -29,9 +29,9 @@
           </el-form-item>
           <el-form-item label="按钮">
             <el-checkbox-group v-model="design.buttonName">
-              <el-checkbox label="add" name="buttons">增加</el-checkbox>
-              <el-checkbox label="del" name="buttons">删除</el-checkbox>
-              <el-checkbox label="update" name="buttons">修改</el-checkbox>
+              <el-checkbox label="add" >增加</el-checkbox>
+              <el-checkbox label="del" >删除</el-checkbox>
+              <el-checkbox label="update" >修改</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="列数">
@@ -71,11 +71,32 @@ export default {
         tableName: '',
         description: ''
       },
+      type: '',
       tables: [],
       fields: []
     }
   },
   methods: {
+    init () {
+      this.type = this.$route.params.type
+      if (this.type === 'add') {
+
+      } else {
+        let designId = this.$route.params.designId
+        this.getDesign(designId)
+      }
+    },
+    getDesign (designId) {
+      this.$api.design.designView(designId).then(res => {
+        this.design = res.data
+        this.findTables()
+        this.columnList(res.data.tableName)
+        for (let key in res.data.buttons.split(',')) {
+          this.$set(this.checked, key, [])
+        }
+        this.design.buttonName = res.data.buttons.split(',')
+      })
+    },
     findTables () {
       this.$api.design.tableList().then(res => {
         console.log(res.data)
@@ -93,7 +114,9 @@ export default {
       let params = this.design
       params.buttons = ''
       for (let item of params.buttonName) {
-        params.buttons += item + ','
+        if (item !== '') {
+          params.buttons += item + ','
+        }
       }
       this.$api.design.designAdd(params).then(res => {
         if (res.status === 200) {
@@ -114,6 +137,9 @@ export default {
     goBack () {
       this.$router.back(-1)
     }
+  },
+  mounted () {
+    this.init()
   }
 }
 </script>

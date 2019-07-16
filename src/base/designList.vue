@@ -37,6 +37,7 @@
               <el-button
                 size="mini"
                 type="primary"
+                @click="toEdit(scope.row, 'edit')"
                 >编辑</el-button>
               <el-button
                 size="mini"
@@ -63,6 +64,9 @@ export default {
       this.$api.design.designList().then(res => {
         this.designList = res.data
       })
+    },
+    toEdit (row, type) {
+      this.$router.push({name: 'designAdd', params: {designId: row.id, type: 'edit'}})
     }
   },
   mounted: function () {

@@ -19,6 +19,9 @@ const design = {
   },
   designDel (designId) {
     return axios.get(`${base.bd}/design/delete/${designId}`)
+  },
+  designView (designId) {
+    return axios.get(`${base.bd}/design/designView/${designId}`)
   }
   /* // 新闻详情,演示
   tableList (id, params) {
